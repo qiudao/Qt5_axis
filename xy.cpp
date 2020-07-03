@@ -1,5 +1,6 @@
 #include "xy.h"
 #include <QDebug>
+#include <QFormLayout>
 
 XY::XY(QWidget *parent)
 	: QWidget(parent)
@@ -11,26 +12,37 @@ XY::XY(QWidget *parent)
 	m_ymin 		= 0;
 	m_ymax		= 0;
 
+	setupInfoBox();
 
+}
+
+void XY::setupInfoBox()
+{
 	/* create debug labels */
+	QWidget *info = new QWidget(this);
+	QVBoxLayout *vlayout =  new QVBoxLayout;
 	m_lb_x		= new QLabel(this);
 	m_lb_y		= new QLabel(this);
 	m_lb_size 	= new QLabel(this);
-	btn_start 	= new QPushButton("start", this);
 	m_le_x		= new QLineEdit(this);
 	m_le_ymin	= new QLineEdit(this);
 	m_le_ymax	= new QLineEdit(this);
-	btn_start->move(100, 100);
-	m_lb_size->move(100, 130);
-	m_lb_x->move(100, 160);
-	m_lb_y->move(100, 190);
-	m_le_x->move(100,220);
-	m_le_ymin->move(100,250);
-	m_le_ymax->move(100,280);
-	m_lb_x->resize(500, m_lb_x->height());
-	m_lb_y->resize(500, m_lb_y->height());
-	m_lb_x->setText("X: ");
-	m_lb_y->setText("Y: ");
+
+	// formLayout
+	QFormLayout *formlayout = new QFormLayout;
+	formlayout->addRow(tr("Size:"), m_lb_size);
+	formlayout->addRow(tr("X:"), m_lb_x);
+	formlayout->addRow(tr("Y:"), m_lb_y);
+	formlayout->addRow(tr("&X num:"), m_le_x);
+	formlayout->addRow(tr("Y m&in:"), m_le_ymin);
+	formlayout->addRow(tr("Y m&ax:"), m_le_ymax);
+	m_le_x->setMaximumWidth(50);
+	m_le_ymin->setMaximumWidth(50);
+	m_le_ymax->setMaximumWidth(50);
+	info->setLayout(formlayout);
+	info->setWindowOpacity(0);
+	info->setStyleSheet("background-color: rgba(0,0,0,0)");
+
 
 	connect(m_le_x, SIGNAL(editingFinished()), this, SLOT(OnXYChanged()));
 	connect(m_le_ymin, SIGNAL(editingFinished()), this, SLOT(OnXYChanged()));
