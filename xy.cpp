@@ -13,7 +13,7 @@ XY::XY(QWidget *parent)
 	m_ymax		= 0;
 
 	setupInfoBox();
-
+	setStyleSheet("background-color:black;");
 }
 
 void XY::setupInfoBox()
@@ -27,6 +27,8 @@ void XY::setupInfoBox()
 	m_le_x		= new QLineEdit(this);
 	m_le_ymin	= new QLineEdit(this);
 	m_le_ymax	= new QLineEdit(this);
+
+	m_lb_y->setMinimumWidth(250);
 
 	// formLayout
 	QFormLayout *formlayout = new QFormLayout;
@@ -43,7 +45,6 @@ void XY::setupInfoBox()
 	info->setWindowOpacity(0);
 	info->setStyleSheet("background-color: rgba(0,0,0,0)");
 
-
 	connect(m_le_x, SIGNAL(editingFinished()), this, SLOT(OnXYChanged()));
 	connect(m_le_ymin, SIGNAL(editingFinished()), this, SLOT(OnXYChanged()));
 	connect(m_le_ymax, SIGNAL(editingFinished()), this, SLOT(OnXYChanged()));
@@ -57,6 +58,8 @@ void XY::resizeEvent(QResizeEvent *e)
 
 	setX(m_x);
 	setY(m_ymin, m_ymax);
+
+	qDebug() << s;
 }
 
 XY::~XY()
